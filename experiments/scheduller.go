@@ -33,6 +33,7 @@ var schedule = map[string][]string{
 	"sexta-feira":   {"OCUPADO", "OCUPADO"},
 }
 
+// TODO: REMOVE FANTASY METHODS, TO UNCOUPLE LIB'S DEPENDENCY FROM THIS PACKAGE
 func schedulleGetNextTime(ctx context.Context, i schedullerCheckDayInput, _ fantasy.ToolCall) (fantasy.ToolResponse, error) {
 	day := strings.ToLower(i.DayOfWeek)
 
@@ -69,12 +70,14 @@ func SchedullerExperiment(ctx context.Context, agent aiagent.AIAgent) {
 		return
 	}
 
+	//TODO: REMOVE FANTASY METHODS, TO UNCOUPLE LIB'S DEPENDENCY FROM THIS PACKAGE
 	schedulingTool := fantasy.NewAgentTool(
 		"get_next_time",
 		"Verifica o primeiro horário disponível em um dia específico da semana.",
 		schedulleGetNextTime,
 	)
 
+	//TODO: REMOVE FANTASY METHODS, TO UNCOUPLE LIB'S DEPENDENCY FROM THIS PACKAGE
 	agent.Bootstrap(ctx, fantasy.WithSystemPrompt(schedullerSystemPrompt), fantasy.WithTools(schedulingTool))
 
 	fmt.Println("--- Assistente de Agendamento (Powered by LLM Fantasy) ---")
