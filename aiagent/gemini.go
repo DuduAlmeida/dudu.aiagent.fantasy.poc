@@ -53,7 +53,7 @@ func (g *GeminiAIAgent) Bootstrap(ctx context.Context, opts ...fantasy.AgentOpti
 	return nil
 }
 
-func (g *GeminiAIAgent) SubmitPrompt(ctx context.Context, prompt string) (err error) {
+func (g *GeminiAIAgent) SubmitPrompt(ctx context.Context, prompt string) (result *fantasy.AgentResult, err error) {
 	streamCall := fantasy.AgentStreamCall{
 		Prompt: prompt,
 
@@ -84,10 +84,10 @@ func (g *GeminiAIAgent) SubmitPrompt(ctx context.Context, prompt string) (err er
 
 	fmt.Println("Generating...")
 
-	_, err = g.agent.Stream(ctx, streamCall)
+	result, err = g.agent.Stream(ctx, streamCall)
 	if err != nil {
-		return fmt.Errorf("Error generating response: %v\n", err.Error())
+		return result, fmt.Errorf("Error generating response: %v\n", err.Error())
 	}
 
-	return nil
+	return result, nil
 }
